@@ -1,4 +1,5 @@
 const express= require("express");
+var cors=require('cors')
 const app=express();
 require("dotenv").config()
 const port=process.env.port
@@ -8,14 +9,16 @@ const mongoose=require("mongoose");
 const {createAccount,login}=require("./controller/user");
 const { createNotebook } = require("./controller/notes");
 const {getNotes, updateNotebook,deleteNotebook}=require("./controller/notes");
-
+const auth=require("./middleware/auth")
                                     
 app.use(express.json());
-  
+
+app.use(cors())
                                       
 app.post("/signin",createAccount);
 app.post("/login", login)
 app.post("/CreateNotebook",createNotebook);
+
 app.get("/AllNotes",getNotes)
 app.put("/update/:id",updateNotebook);
 app.delete("/api/delete/:id",deleteNotebook);
